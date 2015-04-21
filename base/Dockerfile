@@ -74,4 +74,7 @@ COPY boot.sh /data/boot.sh
 # set the default user id
 ENV DEFAULT_UID 1000
 
+# expose apache http port
+EXPOSE 80
+
 ENTRYPOINT ["/data/boot.sh"]

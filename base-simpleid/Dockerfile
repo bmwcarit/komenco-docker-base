@@ -67,4 +67,7 @@ COPY identities/ /data/simpleid/identities
 # add start script
 COPY start.sh /data/start.sh
 
+# expose https port
+EXPOSE 443
+
 ENTRYPOINT ["/data/start.sh"]

@@ -18,7 +18,7 @@ Installation
 The following software is required on your system:
 
 * [docker](https://www.docker.com/)
-* [docker-composer](https://docs.docker.com/compose/)
+* [docker-compose](https://docs.docker.com/compose/)
 
 Many of the major distributions provide packages for docker, but as they are not
 necessarily providing the latest versions of docker we recommend that you follow

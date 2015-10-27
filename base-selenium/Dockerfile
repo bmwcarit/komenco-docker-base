@@ -53,7 +53,7 @@ RUN mv /usr/bin/google-chrome /usr/bin/google-chrome-sandbox && \
 
 # install chrome driver
 WORKDIR /opt
-RUN wget http://chromedriver.storage.googleapis.com/2.10/chromedriver_linux64.zip && \
+RUN wget -q http://chromedriver.storage.googleapis.com/2.20/chromedriver_linux64.zip && \
 	unzip chromedriver_linux64.zip && \
 	rm chromedriver_linux64.zip && \
 	mv chromedriver /usr/bin && \

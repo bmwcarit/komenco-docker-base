@@ -20,7 +20,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-env 
+env
 USER=komenco
 
 # create user
@@ -39,6 +39,7 @@ sed -i 's/User apache/User komenco/g' /etc/httpd/conf/httpd.conf
 
 # execute start script as komenco user
 cd data
+chown -R $USER /data/src
 export HOME=/home/$USER
 CMD="source $HOME/.bashrc; ./start.sh $@"
 gosu $USER /bin/bash -c "$CMD"

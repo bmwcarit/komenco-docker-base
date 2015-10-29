@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Copyright (C) 2015, BMW Car IT GmbH
 #
@@ -24,6 +24,7 @@ set -e
 
 CONTAINER_LIST=`ls -d */ | cut -d'/' -f1`
 DOCKER_PREFIX="bmwcarit/komenco"
+VERSION="latest"
 
 BUILD_OPTIONS="$@"
 
@@ -35,9 +36,15 @@ function print_info ()
 
 }
 
+# check if version is a tag
+GIT_DESCRIBE=`git describe`
+if [[ "$GIT_DESCRIBE" =~ ^v?[0-9\.]+$ ]]
+then
+	VERSION=$GIT_DESCRIBE
+fi
+
 for i in $CONTAINER_LIST
 do
-	print_info "Build" $i
-	docker build -t $DOCKER_PREFIX-$i $BUILD_OPTIONS $i
+	print_info "Build" "$DOCKER_PREFIX-$i:$VERSION"
+	docker build -t $DOCKER_PREFIX-$i:$VERSION $BUILD_OPTIONS $i
 done
-

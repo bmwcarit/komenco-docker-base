@@ -38,5 +38,8 @@ fi
 # build test classes
 ./vendor/bin/codecept build
 
+echo "Give other containers time to start 10sec"
+sleep 10
+
 # run tests
 ./vendor/bin/codecept $@

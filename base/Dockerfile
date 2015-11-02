@@ -58,7 +58,7 @@ RUN sed -i -e 's/;date.timezone.*/date.timezone = Europe\/Berlin/g' /etc/php.ini
 RUN curl -sSL https://getcomposer.org/installer | php -- --install-dir=bin --filename=composer
 
 # install gosu$
-RUN curl -o gosu -sSL "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture)" && \
+RUN curl -o gosu -sSL "https://github.com/tianon/gosu/releases/download/1.6/gosu-$(dpkg --print-architecture)" && \
 	chmod +x gosu && \
 	mv gosu /usr/bin
 

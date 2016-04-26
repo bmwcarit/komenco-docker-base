@@ -18,7 +18,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-FROM fedora:21
+FROM ubuntu:15.10
 MAINTAINER Michael Knapp <michael.knapp@bmw-carit.de>
 
 # set timezone
@@ -26,25 +26,25 @@ RUN rm /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 # install php an all needed packages
-RUN yum upgrade -y && \
-	yum install -y \
-		firefox \
-		java-1.8.0-openjdk \
-		libXrandr \
-		wget \
-		unzip && \
-	yum clean all
+RUN apt-get update && \
+		apt-get install -y \
+			openjdk-7-jdk \
+			libxrandr2 \
+			unzip \
+			xvfb \
+			wget && \
+		apt-get clean
 
 # install chrome & firefox & xvfb
-RUN wget -q https://dl-ssl.google.com/linux/linux_signing_key.pub && \
-        rpm --import linux_signing_key.pub
-ADD ./google-chrome.repo  /etc/yum.repos.d/google-chrome.repo
+# install chrome
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+	&& echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
 
-RUN yum upgrade -y && \
-	yum install -y \
+RUN apt-get update && \
+	apt-get install -y \
 		google-chrome-stable \
-		xorg-x11-server-Xvfb firefox && \
-	yum clean all
+		firefox && \
+	apt-get clean
 
 RUN mv /usr/bin/google-chrome /usr/bin/google-chrome-sandbox && \
 	echo '#!/bin/bash' > /usr/bin/google-chrome && \
@@ -53,15 +53,15 @@ RUN mv /usr/bin/google-chrome /usr/bin/google-chrome-sandbox && \
 
 # install chrome driver
 WORKDIR /opt
-RUN wget -q http://chromedriver.storage.googleapis.com/2.20/chromedriver_linux64.zip && \
+RUN wget -q http://chromedriver.storage.googleapis.com/2.21/chromedriver_linux64.zip && \
 	unzip chromedriver_linux64.zip && \
 	rm chromedriver_linux64.zip && \
 	mv chromedriver /usr/bin && \
 	chmod 755 /usr/bin/chromedriver
 
 # install selenium
-RUN wget -P /opt http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar && \
-	ln -s selenium-server-standalone-2.44.0.jar selenium-server-standalone.jar
+RUN wget -P /opt http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar && \
+	ln -s selenium-server-standalone-2.53.0.jar selenium-server-standalone.jar
 
 ADD start.sh /opt/start.sh
 

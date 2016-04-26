@@ -18,7 +18,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-FROM fedora:21
+FROM ubuntu:15.10
 MAINTAINER Michael Knapp <michael.knapp@bmw-carit.de>
 
 # set timezone
@@ -26,24 +26,22 @@ RUN rm /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 # install needed packages
-RUN yum upgrade -y && \
-	yum install -y \
+RUN apt-get update && \
+	apt-get install -y \
 		curl \
 		dpkg \
 		git \
 		patch \
-		php \
-		php-bcmath \
-		php-pdo \
-		php-mbstring \
-		php-xml \
+		php5 \
 		unzip && \
-	yum clean all
+	apt-get clean
+
+RUN apt-get install -y php5-curl php5-sqlite
 
 # configure php
-RUN sed -i -e 's/;date.timezone.*/date.timezone = Europe\/Berlin/g' /etc/php.ini && \
-	sed -i -e 's/display_errors.*/display_errors = On/g' /etc/php.ini && \
-	sed -i -e 's/memory_limit.*/memory_limit = 4096M/g' /etc/php.ini
+RUN sed -i -e 's/;date.timezone.*/date.timezone = Europe\/Berlin/g' /etc/php5/cli/php.ini && \
+	sed -i -e 's/display_errors.*/display_errors = On/g' /etc/php5/cli/php.ini && \
+	sed -i -e 's/memory_limit.*/memory_limit = 4096M/g' /etc/php5/cli/php.ini
 
 # install composer
 RUN curl -sSL https://getcomposer.org/installer | php -- --install-dir=bin --filename=composer
@@ -52,9 +50,6 @@ RUN curl -sSL https://getcomposer.org/installer | php -- --install-dir=bin --fil
 RUN curl -o gosu -sSL "https://github.com/tianon/gosu/releases/download/1.6/gosu-$(dpkg --print-architecture)" && \
 	chmod +x gosu && \
 	mv gosu /usr/bin
-
-# the komenco source files
-VOLUME /data/src
 
 # add start script
 COPY start.sh /data/start.sh

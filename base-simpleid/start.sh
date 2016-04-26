@@ -21,7 +21,7 @@
 # DEALINGS IN THE SOFTWARE.
 
 # get the local ip address
-IPADDR=`ifconfig eth0 | grep "inet " | awk -F' ' '{print $2}'`
+IPADDR=`ifconfig eth0 | grep "inet " | awk -F' ' '{print $2}' | sed 's!addr:!!g'`
 echo "IP Address: $IPADDR"
 
 # get original config file
@@ -31,4 +31,4 @@ cp -f /data/simpleid/www/config.php.dist /data/simpleid/www/config.php
 sed -i -e "s/localhost/$IPADDR/g" /data/simpleid/www/config.php
 
 # start web server
-exec /usr/sbin/httpd -D FOREGROUND
+/usr/sbin/apache2ctl -D FOREGROUND

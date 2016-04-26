@@ -33,10 +33,10 @@ RUN apt-get update && \
 		git \
 		patch \
 		php5 \
+		php5-curl \
+		php5-sqlite \
 		unzip && \
 	apt-get clean
-
-RUN apt-get install -y php5-curl php5-sqlite
 
 # configure php
 RUN sed -i -e 's/;date.timezone.*/date.timezone = Europe\/Berlin/g' /etc/php5/cli/php.ini && \

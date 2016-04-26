@@ -40,13 +40,13 @@ RUN apt-get update && \
 		php5 \
 		php5-curl \
 		php5-mcrypt \
+		php5-sqlite \
 		php5-xdebug \
 		tar \
 		unzip && \
 	apt-get clean
 
-RUN apt-get install -y php5-sqlite
-
+# enable rewrite module
 RUN a2enmod rewrite
 
 # configure php

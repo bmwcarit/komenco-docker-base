@@ -38,6 +38,7 @@ RUN apt-get update && \
 		wget && \
 	apt-get clean
 
+# enable apache modules
 RUN a2enmod ssl && \
 	a2enmod rewrite && \
 	a2ensite default-ssl.conf

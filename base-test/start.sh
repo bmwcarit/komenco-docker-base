@@ -47,8 +47,24 @@ fi
 # build test classes
 ./vendor/bin/codecept build
 
-echo "Give other containers time to start 10sec"
-sleep 10
+echo "Give other containers time to start"
+count=0
+PORT=$(nc -z $SELENIUM_PORT_4444_TCP_ADDR 4444; echo $?)
+while [ "$PORT" != "0" ]
+do
+	count=$(($count+1))
+	if [ "$count" -gt 6 ]
+	then
+		echo "Selenium didn't come up: $SELENIUM_PORT_4444_TCP_ADDR:4444"
+		exit
+	fi
+
+	echo "Selenium not ready: retry in 10 secs"
+	sleep 10
+	set +e
+	PORT=$(nc -z $SELENIUM_PORT_4444_TCP_ADDR 4444; echo $?)
+	set -e
+done
 
 # run tests
 ./vendor/bin/codecept $@

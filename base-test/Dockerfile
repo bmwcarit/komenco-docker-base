@@ -31,6 +31,7 @@ RUN apt-get update && \
 		curl \
 		dpkg \
 		git \
+		netcat \
 		patch \
 		php5 \
 		php5-curl \

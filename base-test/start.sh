@@ -38,8 +38,7 @@ fi
 # disable ssl verification for dev environment
 if [ "$APP_ENVIRONMENT" == "dev" ]; then
 	VENDOR_FOLDER='/data/src/vendor'
-	PATCHDIR='/data/src/res/patches'
-
+	PATCHDIR='/opt'
 	patch -i $PATCHDIR/0001-openid-Disable-ssl-host-verification.patch \
 		-d $VENDOR_FOLDER/opauth/openid -p1 -N || true
 fi

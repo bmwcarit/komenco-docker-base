@@ -52,6 +52,9 @@ RUN curl -o gosu -sSL "https://github.com/tianon/gosu/releases/download/1.6/gosu
 	chmod +x gosu && \
 	mv gosu /usr/bin
 
+# copy dev patch
+COPY patches/* /opt/
+
 # add start script
 COPY start.sh /data/start.sh
 

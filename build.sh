@@ -37,7 +37,7 @@ function print_info ()
 }
 
 # check if version is a tag
-GIT_DESCRIBE=`git describe`
+GIT_DESCRIBE=`git describe --tags`
 if [[ "$GIT_DESCRIBE" =~ ^v?[0-9\.]+$ ]]
 then
 	VERSION=$GIT_DESCRIBE
